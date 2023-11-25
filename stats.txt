@@ -1,0 +1,10 @@
+Category       Count Percent
+----------------------------
+Alphabetic         7   38.89
+Uppercase          0    0.00
+Lowercase          7   38.89
+Numeric            4   22.22
+Punctuation        3   16.67
+Whitespace         4   22.22
+Control            3   16.67
+Total             18

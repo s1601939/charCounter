@@ -1,0 +1,8 @@
+Category       Count Percent
+----------------------------
+Alphabetic         7 38.8889
+Numeric            4 22.2222
+Punctuation        3 16.6667
+Whitespace         4 22.2222
+Control            3 16.6667
+Total             18     100
