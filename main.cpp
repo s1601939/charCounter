@@ -102,14 +102,14 @@ void openOutput(std::ofstream& ofs){
 void countStats(std::ifstream& ifs, StatsBlock& s){
     char c{};
     while (ifs.get(c) && ifs.good()) {
-        s.addType(CharType::Total);
-        if (isalpha(c)) s.addType(CharType::Alpha);
-        if (isupper(c)) s.addType(CharType::Uppercase);
-        if (islower(c)) s.addType(CharType::Lowercase);
-        if (isdigit(c)) s.addType(CharType::Numeric);
-        if (ispunct(c)) s.addType(CharType::Punctuation);
-        if (isspace(c)) s.addType(CharType::Whitespace);
-        if (iscntrl(c)) s.addType(CharType::Control);
+        s.incrCount(CharType::Total);
+        if (isalpha(c)) s.incrCount(CharType::Alpha);
+        if (isupper(c)) s.incrCount(CharType::Uppercase);
+        if (islower(c)) s.incrCount(CharType::Lowercase);
+        if (isdigit(c)) s.incrCount(CharType::Numeric);
+        if (ispunct(c)) s.incrCount(CharType::Punctuation);
+        if (isspace(c)) s.incrCount(CharType::Whitespace);
+        if (iscntrl(c)) s.incrCount(CharType::Control);
     }
     if (!ifs.eof()) throw FileError(" (countStats)");
 }
@@ -125,28 +125,30 @@ void writeStats(std::ofstream& ofs, StatsBlock& s){
     ofs << setfill('-') << setw(15) << left << "" << setw(5) << right << "" << setw(8) << right << "" << setfill(oldfill) << endl;
     ofs << fixed;
     ofs << setw(15) << left << "Alphabetic"
-        << setw(5) << setprecision(0) << right << s.getType(CharType::Alpha)
+        << setw(5) << setprecision(0) << right << s.getCount(CharType::Alpha)
         << setw(8) << setprecision(2) << right << s.getTypePercent(CharType::Alpha) << endl;
     ofs << setw(15) << left << "Uppercase"
-        << setw(5) << setprecision(0) << right << s.getType(CharType::Uppercase)
+        << setw(5) << setprecision(0) << right << s.getCount(CharType::Uppercase)
         << setw(8) << setprecision(2) << right << s.getTypePercent(CharType::Uppercase) << endl;
     ofs << setw(15) << left << "Lowercase"
-        << setw(5) << setprecision(0) << right << s.getType(CharType::Lowercase)
+        << setw(5) << setprecision(0) << right << s.getCount(CharType::Lowercase)
         << setw(8) << setprecision(2) << right << s.getTypePercent(CharType::Lowercase) << endl;
     ofs << setw(15) << left << "Numeric"
-        << setw(5) << setprecision(0) << right << s.getType(CharType::Numeric)
+        << setw(5) << setprecision(0) << right << s.getCount(CharType::Numeric)
         << setw(8) << setprecision(2) << right << s.getTypePercent(CharType::Numeric) << endl;
     ofs << setw(15) << left << "Punctuation"
-        << setw(5) << setprecision(0) << right << s.getType(CharType::Punctuation)
+        << setw(5) << setprecision(0) << right << s.getCount(CharType::Punctuation)
         << setw(8) << setprecision(2) << right << s.getTypePercent(CharType::Punctuation) << endl;
     ofs << setw(15) << left << "Whitespace"
-        << setw(5) << setprecision(0) << right << s.getType(CharType::Whitespace)
+        << setw(5) << setprecision(0) << right << s.getCount(CharType::Whitespace)
         << setw(8) << setprecision(2) << right << s.getTypePercent(CharType::Whitespace) << endl;
     ofs << setw(15) << left << "Control"
-        << setw(5) << setprecision(0) << right << s.getType(CharType::Control)
+        << setw(5) << setprecision(0) << right << s.getCount(CharType::Control)
         << setw(8) << setprecision(2) << right << s.getTypePercent(CharType::Control) << endl;
     ofs << setw(15) << left << "Total"
-        << setw(5) << setprecision(0) << right << s.getType(CharType::Total)
-        << setw(8) << setprecision(2) << endl;
+        << setw(5) << setprecision(0) << right << s.getCount(CharType::Total);
     if (ofs.fail()) throw FileError(" (writeStats)");
+    
+    // restore the old stream state
+    ofs.copyfmt(oldState);
 }

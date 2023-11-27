@@ -1,12 +1,22 @@
+/*****************************************************************//**
+ * \file   StatsBlock.cpp
+ * \brief  IMPLEMENTATION for the StatsBlock class for a character counter
+ * 
+ * \author Stephen Graham
+ * \date   November 2023
+ *********************************************************************/
 #include "StatsBlock.h"
-void StatsBlock::addType(CharType t) {
+
+void StatsBlock::incrCount(CharType t) {
 	stats[static_cast<int>(t)]++;
 }
-int StatsBlock::getType(CharType t) {
+
+int StatsBlock::getCount(CharType t) {
 	return stats[static_cast<int>(t)];
 }
+
 void StatsBlock::reset() {
-	for (int i=0; i < static_cast<int>(CharType::size); ++i) {
+	for (int i=0; i < (static_cast<int>(CharType::size)+1); ++i) { // +1 to match the array safety
 		stats[i] = 0;
 	}
 }
